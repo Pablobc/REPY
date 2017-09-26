@@ -2,31 +2,30 @@ import re
 
 ##NO OLVIDAR: importa el tipo en las variables asi que tener ojo con eso.
 
-rust = []
-
 #crea una lista con el contenido del archivo de texto
-texto = open("codigo_rust.txt")
-for linea in texto:
-    rust.append(linea)
-texto.close()
+# texto = open("codigo_rust.txt")
+
+
 ###
 
 #expresiones regulares
-#funcion = re.compile('fn \S+ ( \S+ : \S+ ) - > \S+ {') 
-variable = re.compile('let mut \S+ : \S+ = \S+ ;')
-asignacion = re.compile('\S+ = \S+ ;')
-mas = re.compile('\+')
-menos = re.compile('-')
-mayor_igual = re.compile('>=')
-menor_igual = re.compile('<=')
-mayor = re.compile('>')
-menor = re.compile('<')
-igual = re.compile('=')
-printeo = re.compile('println!') ##arreglar esto.
+
+declaracion = re.compile('let mut ([A-z]+_*[A-z]*) : (i16|i32|f64) = ((-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|-[0-9]+\.[0-9]+)|([A-z]+_*[A-z]*)|(([A-z]+_*[A-z]*)|(-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|-[0-9]+\.[0-9]+)|\(([A-z]+_*[A-z]*) as (i16|i32|f64)\)) (\+|\-) (([A-z]+_*[A-z]*)|(-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|-[0-9]+\.[0-9]+)|\(([A-z]+_*[A-z]*) as (i16|i32|f64)\))|(([A-z]+_*[A-z]*)\((([A-z]+_*[A-z]*)|(-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|-[0-9]+\.[0-9]+))\)));')
+asignacion = re.compile('([A-z]+_*[A-z]*) = (([A-z]+_*[A-z]*)|(-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|-[0-9]+\.[0-9]+));')
+operacion = re.compile('((([A-z]+_*[A-z]*)|(-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|-[0-9]+\.[0-9]+)|\(([A-z]+_*[A-z]*) as (i16|i32|f64)\)) (\+|\-) (([A-z]+_*[A-z]*)|(-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|-[0-9]+\.[0-9]+)|\(([A-z]+_*[A-z]*) as (i16|i32|f64)\)));?')
+casteo = re.compile('(\(([A-z]+_*[A-z]*) as (i16|i32|f64)\));?')
+ctrl_if = re.compile('if ([A-z]+_*[A-z]*) (>|<|=|<=|>=) (([A-z]+_*[A-z]*)|(-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|-[0-9]+\.[0-9]+)) {')
+ctrl_elseif = re.compile('} else if ([A-z]+_*[A-z]*) (>|<|=|<=|>=) (([A-z]+_*[A-z]*)|(-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|-[0-9]+\.[0-9]+)) {')
+ctrl_else = re.compile('} else {')
+fin = re.compile('}')
+ctrl_while = re.compile('while ([A-z]+_*[A-z]*) (>|<|=|<=|>=) (([A-z]+_*[A-z]*)|(-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|-[0-9]+\.[0-9]+)) {')
+boolean = re.compile('([A-z]+_*[A-z]*) (>|<|=|<=|>=) (([A-z]+_*[A-z]*)|(-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|-[0-9]+\.[0-9]+))')
+printeo = re.compile('println! \(([A-z]+_*[A-z]*)\);') 
+funcioninit = re.compile('fn ([A-z]+_*[A-z]*) \(([A-z]+_*[A-z]*):(i16|i32|f64)\) - > (i16|i32|f64) {')
+ret = re.compile('return (([A-z]+_*[A-z]*)|(([A-z]+_*[A-z]*)|(-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|-[0-9]+\.[0-9]+)|\(([A-z]+_*[A-z]*) as (i16|i32|f64)\)) (\+|\-) (([A-z]+_*[A-z]*)|(-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|-[0-9]+\.[0-9]+)|\(([A-z]+_*[A-z]*) as (i16|i32|f64)\))|(-[0-9]+|[0-9]+|[0-9]+\.[0-9]+|-[0-9]+\.[0-9]+));')
+fun_main =re.compile('fn main \(\) {')
 
 
-#for ln in rust:
-#    if 
 
 
 
@@ -36,5 +35,10 @@ printeo = re.compile('println!') ##arreglar esto.
 
 
 ###########################MAIN###################
-#def main(codigo_rust):
+def main(codigo_rust):
+	mn = {}
+	texto = open(codigo_rust)
+	for linea in texto:
+		if funcioninit.match(linea):
+			linea.strip().split()
     
